@@ -137,7 +137,7 @@ const Registration = () => {
         <button className="register-button">Sign Up</button>
 
         <p className="login-link">
-          Already have an account? <a href="/login">Log In</a>
+          Already have an account? <a href="http://localhost:3000/">Log In</a>
         </p>
       </div>
     </div>
@@ -145,5 +145,6 @@ const Registration = () => {
 };
 
 export default Registration;
+
 
 
