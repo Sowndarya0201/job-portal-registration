@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './Registration.css';
 
 const Registration = () => {
   const [role, setRole] = useState('jobseeker');
   const [showPassword, setShowPassword] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    mobile: '',
+    city: '',
+    companyName: '',
+    companyEmail: '',
+    password: '',
+  });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -14,31 +24,51 @@ const Registration = () => {
     setShowVerification(true);
   };
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:3001/register', {
+        role,
+        ...formData,
+      });
+      alert(response.data.message);
+    } catch (error) {
+      console.error('There was an error registering!', error);
+      alert('Registration failed!');
+    }
+  };
+
   const renderForm = () => {
     if (role === 'jobseeker') {
       return (
         <>
           <div className="input-group">
-            <input type="text" placeholder="Enter your name" />
+            <input type="text" name="name" placeholder="Enter your name" onChange={handleChange} />
           </div>
 
           <div className="input-group">
-            <input type="email" placeholder="Enter your email" />
+            <input type="email" name="email" placeholder="Enter your email" onChange={handleChange} />
           </div>
 
           <div className="input-group">
-            <input type="text" placeholder="Enter your mobile number" />
+            <input type="text" name="mobile" placeholder="Enter your mobile number" onChange={handleChange} />
           </div>
 
           <div className="input-group">
-            <input type="text" placeholder="Enter your current city" />
+            <input type="text" name="city" placeholder="Enter your current city" onChange={handleChange} />
           </div>
 
           <div className="input-group">
             <div className="password-wrapper">
               <input
                 type={showPassword ? 'text' : 'password'}
+                name="password"
                 placeholder="Create your password"
+                onChange={handleChange}
               />
               <span className="toggle-password" onClick={togglePasswordVisibility}>
                 <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
@@ -67,18 +97,20 @@ const Registration = () => {
       return (
         <>
           <div className="input-group">
-            <input type="text" placeholder="Enter your company name" />
+            <input type="text" name="companyName" placeholder="Enter your company name" onChange={handleChange} />
           </div>
 
           <div className="input-group">
-            <input type="email" placeholder="Enter your company email" />
+            <input type="email" name="companyEmail" placeholder="Enter your company email" onChange={handleChange} />
           </div>
 
           <div className="input-group">
             <div className="password-wrapper">
               <input
                 type={showPassword ? 'text' : 'password'}
+                name="password"
                 placeholder="Create your password"
+                onChange={handleChange}
               />
               <span className="toggle-password" onClick={togglePasswordVisibility}>
                 <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
@@ -132,9 +164,11 @@ const Registration = () => {
           </button>
         </div>
 
-        {renderForm()}
+        <form onSubmit={handleSubmit}>
+          {renderForm()}
 
-        <button className="register-button">Sign Up</button>
+          <button type="submit" className="register-button">Sign Up</button>
+        </form>
 
         <p className="login-link">
           Already have an account? <a href="/login">Log In</a>
@@ -145,5 +179,4 @@ const Registration = () => {
 };
 
 export default Registration;
-
 
