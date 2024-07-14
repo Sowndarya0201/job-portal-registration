@@ -171,7 +171,7 @@ const Registration = () => {
         </form>
 
         <p className="login-link">
-          Already have an account? <a href="/login">Log In</a>
+          Already have an account? <a href="http://localhost:3000/">Log In</a>
         </p>
       </div>
     </div>
@@ -180,3 +180,8 @@ const Registration = () => {
 
 export default Registration;
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 89eab1327d26d79f70dfe92d5ea5c1ba60154e73
